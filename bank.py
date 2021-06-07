@@ -8,11 +8,11 @@ class BankAcc:
         self.loan=0
         self.statement=[]
     def show_balance(self):
-        return f"Hello{self.name}you balance is{self.balance}"
+        return f"Hello {self.name} you balance is {self.balance}"
 
     def withdraw(self,amount):
         if amount>self.balance:
-            return f"you can't withdraw {amount}it is below minimum"
+            return f"you can't withdraw {amount} it is below minimum"
 
         else:
              self.balance-=amount
@@ -26,9 +26,10 @@ class BankAcc:
             self.balance+=amount
             now=datetime.now()
             transaction={
-                "amount":50,
                 "time":now,
-                "narration":"you deposited"}
+                "amount":50,
+                "narration":"deposited in your account"
+               }
             self.statement.append(transaction)
             return self.statement
 
@@ -49,7 +50,7 @@ class BankAcc:
             transaction={
                 "amount":70,
                 "time":now,
-                "narration":"You withdrew"
+                "narration":" withdrawn from your account"
             }
             self.statement.append(transaction)
             return self.show_balance()
@@ -63,13 +64,7 @@ class BankAcc:
             print(f"{date}:{narration} {amount}")
         return
 
-    def borrow(self,amount):
-        self.loan=0
-        self.loan+=amount
-    def repay(self,amount):
-        self.loan-=amount
-        return f"Hello have repayed{amount}"
-        
+
 
 
     def borrow(self,amount):
@@ -79,24 +74,23 @@ class BankAcc:
         elif self.loan>0:
              return f"Dear {self.name} you cannot borrow {amount}.Kindly repay your previous loan"
         elif amount>0.1*self.balance:
-                 return f"Dear {self.name} you cannot borrow {amount}.your loan limit is{0.05*self.balance}"
+                 return f"Dear {self.name} you cannot borrow {amount}.your loan limit is {0.05*self.balance}"
         else:
             loan=amount*1.05
             self.loan=loan
             self.balance+=amount
-            self.balance-=amount
             now=datetime.now()
             transaction={
                 "amount":3000,
                 "time":now,
-                "narration":"You have borrowed"
+                "narration":"borrowed "
             }
             self.statement.append(transaction)
-            return f"{self.show_balance()} and you new  balance is {self.balance}"
+            return f"Congulaturation {self.name} you have received a loan of {amount} your loan balance is {loan} and your account balance is {self.balance}"
 
 
     def repay(self,amount):
-        if amount<0:
+        if amount<=0:
             return f"Dear {self.name} you cannot  borrow less than 0"
         elif amount<=self.loan:
             self.loan-=amount
@@ -110,10 +104,13 @@ class BankAcc:
             transaction={
                 "amount":3000,
                 "time":now,
-                "narration":"You have repayed "
+                "narration":"repayed for you loan"
+             
+                
             }
             self.statement.append(transaction)
-            return f"{self.show_balance()} you new balance is {diff}"
+            return f" Dear {self.name} you have repaid you loan of sh {amount}.We have deposited {diff} in your account your."
+            # you new balance is {self.deposit(diff)}"
 
 
     
