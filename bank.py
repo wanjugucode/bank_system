@@ -20,6 +20,10 @@ class BankAcc:
 
 
     def deposit(self,amount):
+        try :
+            10+amount
+        except TypeError:
+            return f"The amount must be a figure"
         if amount<0:  
             return f"you cannot deposit ksh:{amount} it is below minimum" 
         else:
@@ -76,7 +80,7 @@ class BankAcc:
         elif amount>0.1*self.balance:
                  return f"Dear {self.name} you cannot borrow {amount}.your loan limit is {0.05*self.balance}"
         else:
-            loan=amount*1.05
+            loan=amount*0.05
             self.loan=loan
             self.balance+=amount
             now=datetime.now()
@@ -91,7 +95,7 @@ class BankAcc:
 
     def repay(self,amount):
         if amount<=0:
-            return f"Dear {self.name} you cannot  borrow less than 0"
+            return f"Dear {self.name} you cannot  pay less than 0"
         elif amount<=self.loan:
             self.loan-=amount
             return f"Dear {self.name} you have payed {amount}"
@@ -110,10 +114,78 @@ class BankAcc:
             }
             self.statement.append(transaction)
             return f" Dear {self.name} you have repaid you loan of sh {amount}.We have deposited {diff} in your account your."
-            # you new balance is {self.deposit(diff)}"
-
-
     
+
+
+    def withdraw(self,amount):
+        try:
+            self.balance-amount
+        except TypeError:
+            return f"The amount must be a figure"
+    def borrow(self,amount):
+        try:
+            amount*0.05
+        except TypeError:
+            return f"The amount must be a figure"
+    def repay(self,amount):
+        try:
+            amount-self.loan
+        except TypeError:
+            return f"The amount must be a figure"
+
+
+    def transfer(self,account,amount):
+        try:
+            amount+10
+        except TypeError:
+            return f"Amount must be a figure"  
+        fee=amount*0.05
+        total=amount+fee
+        if amount<0:
+            return f" Dear {self.name} amount must be greater than 0"
+        elif total>self.balance:
+            return f"Dear {self.name} you dont have sufficient fund"
+        else:
+            self.balance-=total
+            account.deposit(amount)
+            return f"you have transfered {amount} to acc {account} your balance is {self.balance -account}"    
+    
+
+
+class MobileMoneyAccount(BankAcc):
+    def __init__(self, name, phone_number,service_provider):
+        BankAcc.__init__(name,phone_number)
+        self.service_provider=service_provider
+    def buy_airtime(self,amount):
+        try:
+            amount+10
+        except TypeError:
+            return f"Amount must be a figure"  
+        if amount<0:
+            return f" Dear {self.name} amount must be greater than 0"
+        elif amount>self.balance:
+            return f"Dear {self.name} you dont have sufficient fund to buy {amount} worth airtime"
+        else:
+            self.balance-=amount
+            return f"Dear {self.name} you have bought {amount} airtime your new balance is{self.balance}"
+
+    def withdraw(self,amount):
+        try:
+            amount+10
+        except TypeError:
+            return f"Amount must be a figure"  
+        if amount<0:
+            return f" Dear {self.name} amount must be greater than 0"
+        elif amount>self.balance:
+            return f"Dear {self.name} you insufficient fund to withdraw {amount}"
+        else:
+            self.balance-=amount
+            return f"Dear {self.name} you have withdrawn sh{amount} . your new balance is{self.balance}"
+
+
+     
+
+
               
 
 
